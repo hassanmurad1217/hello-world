@@ -21,6 +21,7 @@
       background: linear-gradient(135deg, #0f172a, #1f2937);
       color: #e5e7eb;
       padding: 24px;
+      transition: background 0.4s;
     }
 
     .card {
@@ -134,6 +135,41 @@
       color: #6b7280;
       text-align: center;
     }
+
+    .counter-display {
+      text-align: center;
+      font-size: 16px;
+      color: #38bdf8;
+      margin-top: 8px;
+      font-weight: bold;
+      letter-spacing: 0.03em;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .reset-button {
+      border: none;
+      border-radius: 50%;
+      background: #334155;
+      color: #38bdf8;
+      width: 26px;
+      height: 26px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-left: 8px;
+      transition: background 0.15s, color 0.15s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+    }
+    .reset-button:hover, .reset-button:focus {
+      background: #38bdf8;
+      color: #0f172a;
+    }
   </style>
 </head>
 <body>
@@ -156,18 +192,63 @@
       </div>
     </div>
 
+    <div class="counter-display" id="counterDisplay">
+      Button clicked: <span id="counterValue">0</span> times
+      <button class="reset-button" onclick="resetCounter()" title="Reset count" aria-label="Reset count">&orarr;</button>
+    </div>
+
     <div class="actions">
-      <button class="primary-button" onclick="sayHello()">
+      <button class="primary-button" onclick="handleButtonClick('hello')">
         <span class="icon">★</span>
         <span>Click to say hello</span>
+      </button>
+      <button class="primary-button" onclick="handleButtonClick('color')">
+        <span class="icon">🎨</span>
+        <span>Change background color</span>
       </button>
       <p class="hint">Edit this file to practice changing text, colors, and layout.</p>
     </div>
   </main>
 
   <script>
+    let counter = 0;
+
+    function updateCounterDisplay() {
+      document.getElementById('counterValue').textContent = counter;
+    }
+
     function sayHello() {
       alert("Hello, Hassan! Your vertical layout and button are working perfectly.");
+    }
+
+    // Add a background color changer
+    const bgColors = [
+      "linear-gradient(135deg,#0f172a,#1f2937)",
+      "linear-gradient(135deg,#a21caf,#f472b6)",
+      "linear-gradient(135deg,#34d399,#38bdf8)",
+      "linear-gradient(135deg,#fb923c,#f43f5e)",
+      "linear-gradient(135deg,#fde68a,#16a34a)"
+    ];
+    let currentColor = 0;
+
+    function changeBgColor() {
+      currentColor = (currentColor + 1) % bgColors.length;
+      document.body.style.background = bgColors[currentColor];
+    }
+
+    function handleButtonClick(type) {
+      counter++;
+      updateCounterDisplay();
+      if (type === 'hello') {
+        sayHello();
+      } else if (type === 'color') {
+        changeBgColor();
+      }
+    }
+
+    function resetCounter() {
+      counter = 0;
+      updateCounterDisplay();
     }
   </script>
 </body>
